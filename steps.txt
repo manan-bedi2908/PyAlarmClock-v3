@@ -1,0 +1,7 @@
+1. First select Git Bash from Terminal of VS Code
+2. cmd
+>> conda activate alarm
+>> cd src/
+>> python PyAlarmClock.py
+
+Done!!
