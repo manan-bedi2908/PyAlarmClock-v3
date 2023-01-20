@@ -28,7 +28,7 @@ class LogicManager():
         self.data_file_path = "data.json"
         self.alarm_list = self.get_alarm_list_from_file()
         self.alarms_queue = queue.Queue()
-        self.set_main_screen()
+        # self.set_main_screen()
         self.init_threads()
 
 
@@ -192,6 +192,7 @@ class LogicManager():
                     "description": alarm.description,
                     "dismiss_func": alarm.execute_alarm,
                 }
+
                 self.main_screen.load_alarm_active_details(alarm_details_dict)
                 self.main_screen.is_alarm_active = True
 
