@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivymd.uix.button import MDFlatButton, MDRaisedButton
@@ -9,7 +8,8 @@ from frontend.gui_strings import alarm_string
 from service.utils import *
 import weakref
 from kivy.lang.builder import Builder
-
+from pygame import mixer
+from src.backend.AlarmClock import OpenEyesAlarm
 
 class MainScreen(Screen, FloatLayout):
     """
@@ -29,6 +29,25 @@ class MainScreen(Screen, FloatLayout):
         self.logic_manager = logic_manager
         self.alarm_list = [self.get_alarm_dict(alarm) for alarm in logic_manager.alarm_list]
         self.set_alarm_widget_list()
+
+    def play_alarm_ringtone(self):
+        """
+        Starting playing ringtone in the background.
+        """
+        try:
+            mixer.init()
+            mixer.music.load("frontend/assets/Sankat Mochan Hanumanashtak (Slowed Reverb Bhakti Lofi Mp3 Song) Sankat Mochan.mp3")
+            mixer.music.play()
+        except Exception:
+            pass
+
+    def stop_alarm_ringtone(self):
+        """
+        Stop playing ringtone in the background.
+        """
+        mixer.stop()
+        mixer.quit()
+
         
 
     def find_alarm_by_id(self, alarm_list, alarm_id):
@@ -52,7 +71,7 @@ class MainScreen(Screen, FloatLayout):
         Creates alarm and adds it to the main screen
         """
         # get the alarm_form screen
-        alarm_form_screen = self.manager.screens[2]
+        alarm_form_screen = self.manager.screens[3]
         alarm_form_screen.form_toolbar.title = "Add Alarm"
         alarm_form_screen.check_true_curr_weekday()
 
@@ -136,7 +155,13 @@ class MainScreen(Screen, FloatLayout):
             alarm_dict (dict): a dictionary containing the alarm's details.
         """
         # getting the screen
+        
         alarm_active_screen = self.manager.screens[3]
+        print(self.manager.screens[0])
+        print(self.manager.screens[1])
+        print(self.manager.screens[2])
+        print(self.manager.screens[3])
+        print(alarm_dict)
         # setting up details
         alarm_active_screen.alarm_active_time.text = alarm_dict["time"]
         alarm_active_screen.alarm_active_desc.text = alarm_dict["description"]
@@ -144,8 +169,9 @@ class MainScreen(Screen, FloatLayout):
             alarm_active_screen, alarm_dict["dismiss_func"])
 
         alarm_active_screen.play_alarm_ringtone()
+    
         # transitioning to the screen
-        self.manager.transition.direction = 'left'
+        self.manager.transition.direction = 'right'
         self.manager.current = 'alarm_active'
 
     def stop_ringtone_dismiss_func(self, alarm_active_screen, dismiss_func):

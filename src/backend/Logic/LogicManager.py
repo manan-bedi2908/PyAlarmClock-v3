@@ -46,7 +46,7 @@ class LogicManager():
 
         # # alarm executor thread
         self.alarm_executer = threading.Thread(
-            target=self.execute_alarm, daemon=True)
+            target=self.execute_alarm, daemon=True,  )
 
         # starting the threads
         self.alarm_time_checker.start()

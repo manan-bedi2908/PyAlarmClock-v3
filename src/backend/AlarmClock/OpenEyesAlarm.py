@@ -1,6 +1,5 @@
 from src.backend.AlarmClock.Alarm import *
-from src.backend.OpenEyesDetection.OpenEyesDetect import *
-
+from src.backend.OpenEyesDetection.OpenEyesDetect import * 
 
 class OpenEyesAlarm(Alarm):
     """
@@ -27,12 +26,33 @@ class OpenEyesAlarm(Alarm):
         self.camera_num = camera_num
         self.ear = ear
 
+    def play_alarm_ringtone(self):
+        """
+        Starting playing ringtone in the background.
+        """
+        try:
+            mixer.init()
+            mixer.music.load("frontend/assets/Sankat Mochan Hanumanashtak (Slowed Reverb Bhakti Lofi Mp3 Song) Sankat Mochan.mp3")
+            mixer.music.play()
+        except Exception:
+            pass
+
+    def stop_alarm_ringtone(self):
+        """
+        Stop playing ringtone in the background.
+        """
+        mixer.stop()
+        mixer.quit()
+        
+
     def execute_alarm(self):
         """
         Invokes open eyes detection algorithm for the staring time the user entered.
         """
+        self.play_alarm_ringtone()
         open_eyes_detector = OpenEyesDetect.getInstance()
         open_eyes_detector.detect_open_eyes(
             self.staring_time, self.camera_num, self.ear)
         # navigating the user to the main screen
         super(OpenEyesAlarm, self).execute_alarm()
+        self.stop_alarm_ringtone()

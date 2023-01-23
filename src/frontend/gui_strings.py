@@ -364,7 +364,7 @@ ScreenManager:
 
         MDFillRoundFlatButton:
             id: alarm_active_dismiss
-            text: "dismiss"
+            text: "Detect Eyes"
             pos_hint: {'center_x': 0.5, 'center_y': 0.2}
             font_size: '40sp'
             size_hint_y: 0.9

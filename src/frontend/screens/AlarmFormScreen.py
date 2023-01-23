@@ -233,6 +233,8 @@ class AlarmFormScreen(Screen, FloatLayout):
         self.check_valid_description(alarm_dict["description"])
         self.check_valid_alarm_type(alarm_dict["alarm_type"])
 
+        
+
     def dialog_close(self, *args):
         """
         Closes error dialog.
